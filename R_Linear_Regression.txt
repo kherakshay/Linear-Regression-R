@@ -1,0 +1,53 @@
+#Linear Regression
+lm.fit =lm(medv~lstat, data=Boston)                  
+attach(Boston)
+lm.fit <- lm(medv~lstat)                            #No need to specify data if attached previously
+lm.fit                                              #Basic model information
+summary(lm.fit)                                     #Detailed model information
+names(lm.fit)
+lm.fit$coefficients                                 #Extract coefficients 
+coef(lm.fit)                                        #Same
+confint(lm.fit)                                     #Produces confidence intervals
+vif(lm.fit)                                         #Gives VIF
+
+summary(lm.fit)$r.sq                                #Gives R-Sq
+summary(lm.fit)$sigma                               #Gives RSE 
+
+predict (lm.fit ,data.frame(lstat=c(5 ,10 ,15)),    #Produces confidence intervals for given values of indep var
+         interval = "confidence")
+predict (lm.fit ,data.frame(lstat=c(5 ,10 ,15)),    #Produces prediction intervals for given values of indep var
+         interval = "prediction")
+plot(lstat, medv)
+abline(lm.fit)                                      #Plots the OLS regression line  
+
+par(mfrow =c(2,2))                                  #Divides plot area into 4 parts
+plot(lm.fit)                                        #Gives residual plots
+residuals(lm.fit)                                   #Computes residuals
+rstudent(lm.fit)                                    #Computes studentized residuals
+
+plot(predict (lm.fit), residuals (lm.fit))          #Plots predicted values vs residuals 
+plot(predict (lm.fit), rstudent (lm.fit))           #Plots predicted values vs studentized residuals
+
+plot(hatvalues (lm.fit ))
+which.max (hatvalues (lm.fit))                      #Gives observation number of largest element of a vector
+
+lm.fit = lm(medv~lstat+age)                          #Model with 2 independent variables
+lm.fit = lm(medv~.,data=Boston)                      #Model with all independent variables
+lm.fit = lm(medv~.-age,data=Boston)                  #Model with all independent variables but one
+lm.fit1= update (lm.fit, ~.-age)                     #Same
+
+lm.fit2 = lm(medv~lstat*age, data=Boston)            #Model with interaction terms
+
+lm.fit2 = lm(medv~lstat +I(lstat ^2))                #Model on lsat and sq(lsat)   
+lm.fit = lm(medv~lstat)
+anova(lm.fit ,lm.fit2)                               #Anova compares the 2 models with H0: Both moodels are same
+
+lm.fit5 = lm(medv~poly(lstat, 5))                    #Model with 1-5 polynomials of lsat
+
+lm.fit6 = lm(medv~log(rm), data=Boston)              #Model with log of rm
+
+lm.fit = lm(Sales~.+ Income:Advertising + Price:Age, data=Carseats)     #Model with interaction terms
+                                                                        #Qualitative predictors are converted to 
+                                                                        #dummy variables automatically
+contrasts(ShelveLoc)                                 #Gives dummy variable coding
+
